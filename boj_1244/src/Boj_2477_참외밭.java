@@ -16,8 +16,8 @@ public class Boj_2477_참외밭 {
 		}
 		
 		/*
-		 	side에 1번만 등장하는 수의 idx를 구하고
-		 	len에서 해당 idx에 해당하는 값의 곱 = 큰 사각형
+		 	가로, 세로의 최대값을 가지는 len의 idx를 각각 구하고 -> idxW, idxL
+		 	len에서 해당 idx에 해당하는 값 -> maxW, maxL 의 곱 = 큰 사각형의 넓이
 		 	idx의 차의 절대값이 1인 경우 idx갑 중 큰 것 idx+2 idx+3
 		 */
 		int idxW = 0;
@@ -37,14 +37,14 @@ public class Boj_2477_참외밭 {
 				}
 			}
 		}
-		int smallR = 0;
+		int targetIdx = 0;
 		if(Math.abs(idxW-idxL) == 1) {
-			int tmp = idxW > idxL ? idxW : idxL;
-			smallR = len[(tmp+2)%6] * len[(tmp+3)%6];
+			targetIdx = idxW > idxL ? idxW : idxL;
 		} else {
-			int tmp = idxW > idxL ? idxL : idxW;
-			smallR = len[(tmp+2)%6] * len[(tmp+3)%6];
+			targetIdx = idxW > idxL ? idxL : idxW;
 		}
+		int smallR = len[(targetIdx+2)%6] * len[(targetIdx+3)%6];
+		
 		System.out.println(((maxW*maxL)-smallR)*per);
 	}
 }
