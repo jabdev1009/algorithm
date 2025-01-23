@@ -1,7 +1,7 @@
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Boj_1244 {
+public class Boj_1244_스위치 {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		// 스위치의 수
