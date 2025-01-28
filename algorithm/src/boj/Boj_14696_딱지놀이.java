@@ -1,3 +1,5 @@
+package boj;
+
 import java.util.Scanner;
 
 public class Boj_14696_딱지놀이 {

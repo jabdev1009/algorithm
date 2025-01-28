@@ -1,3 +1,5 @@
+package boj;
+
 import java.util.Scanner;
 
 public class Boj_10163_색종이 {

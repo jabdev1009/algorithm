@@ -1,3 +1,5 @@
+package boj;
+
 import java.util.Scanner;
 
 // 큰 사각형 넓이 - 작은 사각형 넓이
