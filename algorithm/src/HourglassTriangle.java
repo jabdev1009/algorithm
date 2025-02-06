@@ -6,19 +6,19 @@ public class HourglassTriangle {
 		int n = sc.nextInt();
 		for(int i=1; i<=n; i++) {
 			int middle = (n+1) / 2;
-			int tmp = (n-1) / 2;
-			int num = tmp - Math.abs(middle-i);
-			for(int j=0; j<num; j++) {
-				// 별 앞 공백
+			int maxSpace = (n-1) / 2;
+			int space = maxSpace - Math.abs(middle-i);
+			// 앞 공백
+			for(int j=0; j<space; j++) {
 				System.out.print(" ");
 			}
-			for(int j=1; j <= n-(2*num); j++) {
-				// 별
+			// 별
+			for(int j=0; j < n-(2*space); j++) {
 				System.out.print("*");
 				
 			}
-			for(int j=0; j<num; j++) {
-				// 별 뒤 공백
+			// 뒤 공백
+			for(int j=0; j<space; j++) {
 				System.out.print(" ");
 			}
 			System.out.println();
