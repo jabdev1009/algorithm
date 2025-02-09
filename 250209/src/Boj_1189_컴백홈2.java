@@ -24,6 +24,7 @@ public class Boj_1189_컴백홈2 {
 			map[i] = arr;
 		}
 		
+		// 남서에서 시작
 		int[] start = {R-1,0,1};
 		
 		dfs(start);
@@ -45,8 +46,10 @@ public class Boj_1189_컴백홈2 {
 				int xx = x + dx[i];
 				int yy = y + dy[i];
 				if(bound(xx,yy) && map[xx][yy] != 'T' && !visited[xx][yy]) {
+					// 반복문 각각의 조건에 방문처리를 해주기 위해 상태를 바꾼뒤
 					visited[xx][yy] = true;
 					dfs(new int[] {xx, yy, d+1});
+					// dfs가 끝나면 다음 조건을 검사하러 갈 때 방문처리가 된 것을 안된 것으로 바꿔 줌
 					visited[xx][yy] = false;
 				}
 			}

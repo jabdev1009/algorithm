@@ -38,27 +38,34 @@ public class Boj_2468_안전영역 {
 	}
 	
 	static void count() {
+		// 높이의 종류 -> 비가 온 뒤 남는 영역에 변화가 있을 수 있는 만큼만 반복
 		for(int height : heights) {
 			int count = 0;
+			// 높이에 따라 남는 영역이 달라지므로 높이별 방문처리 
 			visited = new boolean[n][n];
-			
 			for(int i=0; i<n; i++) {
 				for(int j=0; j<n; j++) {
 					int num = map[i][j];
 					if(num > height && !visited[i][j]) {
+						// dfs를 진행하다 끝 -> 연결된 영역의 탐색이 끝
 						chkSpace(i,j,height);
+						// 영역 갯수 추가 이후 for문을 돌면서 나머지 영역에 대해 높이, 방문검사 진행
 						count++;
 					}
 				}
 			}
+			// 높이 종류 중 하나가 끝 최대 값과 비교하여 갱신
 			max = max > count ? max : count;
 		}
 	}
+	// dfs
 	static void chkSpace(int x, int y, int h) {
 		visited[x][y] = true;
+		// 상하좌우 4방향에 대해
 		for(int i=0; i<4; i++) {
 			int xx = x+dx[i];
 			int yy = y+dy[i];
+			// 범위, 방문여부, 높이검사
 			if(bound(xx,yy) && !visited[xx][yy] && map[xx][yy] > h) {
 				visited[xx][yy] = true;
 				chkSpace(xx,yy,h);
