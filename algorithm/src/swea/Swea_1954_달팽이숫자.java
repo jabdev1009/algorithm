@@ -28,6 +28,7 @@ public class Swea_1954_달팽이숫자 {
 				y += dy[idx];
 			}
 			
+			System.out.println("#"+test_case+" ");
 			for(int i=0; i<n; i++) {
 				for(int j=0; j<n; j++) {
 					System.out.print(arr[i][j]+" ");
