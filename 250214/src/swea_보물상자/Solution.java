@@ -35,19 +35,18 @@ public class Solution {
 			}
 			Set<Integer> set = new HashSet<>();
 			for(int i=0; i<n; i++) {
+				// 비밀번호의 길이만큼 16진수로 변환
+				int num = 0;
 				for(int j=0; j<len; j++) {
-					nums[i+j] * 
+					num += (nums[(i+j)%n])*Math.pow(16, len-1-j);
 				}
-				set.add((nums[i] * 16 *16) + (nums[(i+1)%n] * 16) + nums[(i+2)%n]);
+				set.add(num);
 			}
 			Object[] arr = set.toArray(); 
 			
 			Arrays.sort(arr);
-			System.out.println(Arrays.toString(nums));
-			System.out.println(Arrays.toString(arr));
 			
-			System.out.println(arr[arr.length-k]);
-			
-		}
-	}
+			System.out.println("#" + tc+ " " +arr[arr.length-k];
+        }
+    }
 }
