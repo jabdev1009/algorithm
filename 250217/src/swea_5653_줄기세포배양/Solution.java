@@ -28,6 +28,11 @@ public class Solution {
 			}
 			return this.now - o.now;
 		}
+		@Override
+		public String toString() {
+			return "Cell [x=" + x + ", y=" + y + ", hp=" + hp + ", start=" + start + ", now=" + now + "]";
+		}
+		
 	}
 	
 	static Cell[][] map;
@@ -50,57 +55,57 @@ public class Solution {
 			for(int i=0; i<n; i++) {
 				for(int j=0; j<m; j++) {
 					int hp = sc.nextInt();
-					Cell c = new Cell(w+j, l+i, hp, 0, 0);
-					map[l+i][w+j] = c;
-					queue.offer(c);
+					if(hp != 0) {
+						Cell c = new Cell(w+j, l+i, hp, 0, 0);
+						map[l+i][w+j] = c;
+						queue.offer(c);
+					}
 				}
 			}
 			
-			while(k > 0) {
-				Cell c = queue.poll();
-				int x = c.x;
-				int y = c.y;
-				int start = c.start;
-				int hp = c.hp;
-				int now = c.now;
-				// 세포가 활성화 상태인지 확인
-				if(start+hp >= now && start +hp < now) {
-					for(int i=0; i<4; i++) {
-						int xx = x + dx[i];
-						int yy = y + dy[i];
-						int time = now + 1;
-						if(map[yy][xx] == null) {
-							map[yy][xx] = new Cell(xx, yy, hp, now, time);
+			System.out.println(queue);
+			
+			for(int i=0; i<k; i++) {
+				System.out.println(i);
+				while(!queue.isEmpty()) {
+					Cell c = queue.poll();
+					int x = c.x;
+					int y = c.y;
+					int start = c.start;
+					int hp = c.hp;
+					int now = c.now;
+					// 세포가 활성화 상태인지 확인
+					System.out.println("AAAAAAAAAAAAAAA");
+					System.out.println(start+hp);
+					System.out.println(start + (2*hp));
+					if(start+hp >= k && start + (2*hp) < k) {
+						for(int j=0; j<4; j++) {
+							int xx = x + dx[j];
+							int yy = y + dy[j];
+							int time = now + 1;
+							if(map[yy][xx] == null && time <= k) {
+								Cell cell = new Cell(xx, yy, hp, now, time);
+								System.out.println(cell);
+								map[yy][xx] = cell;
+								queue.offer(cell);
+							}
 						}
 					}
 				}
-				k--;
 			}
+			
+			int count = 0;
+			for(int i=0; i<map.length; i++) {
+				for(int j=0; j<map[i].length; j++) {
+					if(map[i][j] != null) {
+						Cell c = map[i][j];
+						if(c.start+c.hp >= c.now) {
+							count++;
+						}
+					}
+				}
+			}
+			System.out.println(count);
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
