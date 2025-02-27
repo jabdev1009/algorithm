@@ -11,9 +11,7 @@ public class Main {
 		int h = sc.nextInt();
 		
 		int perDay = day-night;
-		
-		
-		
-		
+		System.out.println((int)Math.ceil(   ((double)h-day)/perDay)        +1);
 	}
 }
+
