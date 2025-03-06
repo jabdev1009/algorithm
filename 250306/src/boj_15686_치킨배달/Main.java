@@ -15,16 +15,16 @@ public class Main {
 	static BufferedReader br;
 	static StringTokenizer st;
 	
+	static int[][] map;
+	static int[] sel;
 	static Map<Integer, int[]> chick;
 	static Map<Integer, int[]> house;
-	static int[][] map;
+	static int chickCount;
+	static int houseCount;
 	static int n;
 	static int m;
 	
 	static int min;
-	static int[] sel;
-	static int chickCount;
-	static int houseCount;
 	
 	public static void main(String[] args) throws IOException {
 		br = new BufferedReader(new InputStreamReader(System.in));
@@ -81,7 +81,7 @@ public class Main {
 			int sum = 0;
 			for(int i=0; i<houseCount; i++) {
 				int calMin = Integer.MAX_VALUE;
-				for(int j=0; j<chickCount; j++) {
+				for(int j=0; j<m; j++) {
 					int tmp = cal[j][i];
 					if(calMin> tmp) {
 						calMin = tmp;

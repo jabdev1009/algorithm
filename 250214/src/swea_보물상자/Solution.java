@@ -46,7 +46,7 @@ public class Solution {
 			
 			Arrays.sort(arr);
 			
-			System.out.println("#" + tc+ " " +arr[arr.length-k];
+			System.out.println("#" + tc+ " " +arr[arr.length-k]);
         }
     }
 }
