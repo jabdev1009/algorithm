@@ -38,14 +38,17 @@ public class Main {
 				st = new StringTokenizer(br.readLine());
 				arr[ii] = new Ranks(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
 			}
-			
+			//첫번째 등수로 정렬
 			Arrays.sort(arr);
 			int nowHighest = arr[0].rank2;
 			int count = 1;
+			// 첫번째 등수로 정렬 시킨 뒤 두번째 등수를 비교
 			for(int ii=1; ii<N; ii++) {
 				Ranks now = arr[ii];
+				// 최고 등수보다 낮다면 첫, 두번째 등수 모두 낮은 경우 == 최종불합
 				if(now.rank2 < nowHighest) {
 					count++;
+					// 두번째 등수 중 최고 등수를 유지하면서 순회
 					nowHighest = now.rank2;
 				}
 			}
