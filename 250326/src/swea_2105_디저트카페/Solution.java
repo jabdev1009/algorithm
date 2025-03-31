@@ -3,15 +3,17 @@ package swea_2105_디저트카페;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Solution {
 	
-	static int N;
+	static int N, startX, startY;
 	static int[][] map;
 	static int[] dx = {1,-1,-1,1};
 	static int[] dy = {1,1,-1,-1};
-	static int min;
-	
+	static int max;
+	static Set<Integer> sel;
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = null;
@@ -31,33 +33,39 @@ public class Solution {
 			}
 
 			
-			min = -1;
-			
-			for(int i=0; i<N-1; i++) {
+			max = -1;
+			for(int i=0; i<N-2; i++) {
 				for(int j=1; j<N-1; j++) {
-					dfs(j, i, 0, 0);
+					startX = j;
+					startY = i;
+					sel = new HashSet<>();
+					sel.add(map[i][j]);
+					dfs(j, i, 0);
 				}
 			}
 			
-			sb.append(min);
+			sb.append(max);
 			System.out.println(sb);
 			
 		}
 	}
 	
-	static void dfs(int x, int y, int d, int sum) {
-		if(d == 4) {
-			Math.max(min, sum);
-			return;
+	static void dfs(int x, int y, int d) {
+		for(int i=d; i<=d+1 && i<4; i++) {
+			int xx = x + dx[i];
+			int yy = y + dy[i];
+
+			if(xx == startX && yy == startY) {
+				max = Math.max(max, sel.size());
+				return;
+			}
+
+			if(bound(xx, yy) && sel.add(map[yy][xx])) {
+				dfs(xx, yy, i);
+				sel.remove(map[yy][xx]);
+			}
 		}
-		
-		for(int i=0; i<N-x; i++) {
-			
-		}
-		
 	}
-	
-	
 	static boolean bound(int x, int y) {
 		return x>=0&&y>=0&&x<N&&y<N;
 	}

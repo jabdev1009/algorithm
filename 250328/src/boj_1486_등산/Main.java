@@ -23,11 +23,6 @@ public class Main {
 		public int compareTo(Info o) {
 			return this.time - o.time;
 		}
-
-		@Override
-		public String toString() {
-			return "Info [x=" + x + ", y=" + y + ", time=" + time + ", top=" + top + "]";
-		}
 	}
 
 	static int n, m, t, d;
@@ -61,7 +56,7 @@ public class Main {
 		}
 
 		PriorityQueue<Info> pq = new PriorityQueue<>();
-		pq.offer(new Info(0, 0, 0, 0));
+		pq.offer(new Info(0, 0, 0, map[0][0]));
 
 		while (!pq.isEmpty()) {
 			Info info = pq.poll();
@@ -72,28 +67,24 @@ public class Main {
 			for (int i = 0; i < 4; i++) {
 				int xx = x + dx[i];
 				int yy = y + dy[i];
-				// 지도 내, 이동 가능한 높이
 				if (bound(xx, yy)) {
 					// 높이 차이
 					int dh = Math.abs(map[y][x] - map[yy][xx]);
-					if (dh < t) {
-						// 시간 확인
-						if (map[y][x] - map[yy][xx] >= 0) {
-							// 시간이 1초 걸리는 경우
-							if (dist[yy][xx] > time + 1 && time + 1 < d) {
-								dist[yy][xx] = time + 1;
-								pq.offer(new Info(xx, yy, time + 1, top));
-							}
-						} else {
-							// 시간이 Math.pow(dh,2)만큼 걸리는 경우
-							if (dist[yy][xx] > time + Math.pow(dh, 2) && time + Math.pow(dh, 2) > d) {
-								dist[yy][xx] = time + (int) Math.pow(dh, 2);
-								top = map[yy][xx];
-								ans = Math.max(top, ans);
-								pq.offer(new Info(xx, yy, time + (int) Math.pow(dh, 2), top));
-							}
-						}
-					}
+					if (dh <= t) {
+                        int newTime = time + (int) Math.pow(dh, 2) + 1;
+//                        if (map[y][x] >= map[yy][xx]) {
+//                            newTime = time + 1;
+//                        } else {
+//                            newTime = time + (int) Math.pow(dh, 2);
+//                        }
+                        if (newTime <= d && dist[yy][xx] > newTime) {
+                            dist[yy][xx] = newTime;
+                            int newTop = Math.max(top, map[yy][xx]);
+                            System.out.println(newTime + " : " + xx + " / " + yy + " -> " + newTop);
+                            ans = Math.max(ans, newTop);
+                            pq.offer(new Info(xx, yy, newTime, newTop));
+                        }
+                    }
 				}
 			}
 
