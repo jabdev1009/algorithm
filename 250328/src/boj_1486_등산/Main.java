@@ -71,12 +71,12 @@ public class Main {
 					// 높이 차이
 					int dh = Math.abs(map[y][x] - map[yy][xx]);
 					if (dh <= t) {
-                        int newTime = time + (int) Math.pow(dh, 2) + 1;
-//                        if (map[y][x] >= map[yy][xx]) {
-//                            newTime = time + 1;
-//                        } else {
-//                            newTime = time + (int) Math.pow(dh, 2);
-//                        }
+                        int newTime = 0;
+                        if (map[y][x] >= map[yy][xx]) {
+                            newTime = time + 1;
+                        } else {
+                            newTime = time + (int) Math.pow(dh, 2);
+                        }
                         if (newTime <= d && dist[yy][xx] > newTime) {
                             dist[yy][xx] = newTime;
                             int newTop = Math.max(top, map[yy][xx]);
