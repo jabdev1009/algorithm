@@ -9,14 +9,13 @@ import java.util.StringTokenizer;
 public class Main {
 
 	static class Info implements Comparable<Info> {
-		int x, y, time, top;
+		int x, y, time;
 
-		public Info(int x, int y, int time, int top) {
+		public Info(int x, int y, int time) {
 			super();
 			this.x = x;
 			this.y = y;
 			this.time = time;
-			this.top = top;
 		}
 
 		@Override
@@ -27,7 +26,8 @@ public class Main {
 
 	static int n, m, t, d;
 	static int[][] map;
-	static int[][] dist;
+	static int[][] up;
+	static int[][] down;
 	static int ans;
 	static int[] dx = { 0, 0, 1, -1 };
 	static int[] dy = { 1, -1, 0, 0 };
@@ -42,7 +42,8 @@ public class Main {
 		d = Integer.parseInt(st.nextToken());
 
 		map = new int[n][m];
-		dist = new int[n][m];
+		up = new int[n][m];
+		down = new int[n][m];
 		for (int i = 0; i < n; i++) {
 			char[] arr = br.readLine().toCharArray();
 			for (int j = 0; j < m; j++) {
@@ -51,19 +52,18 @@ public class Main {
 					num -= 6;
 				}
 				map[i][j] = num;
-				dist[i][j] = Integer.MAX_VALUE;
+				up[i][j] = Integer.MAX_VALUE;
+				down[i][j] = Integer.MAX_VALUE;
 			}
 		}
 
 		PriorityQueue<Info> pq = new PriorityQueue<>();
-		pq.offer(new Info(0, 0, 0, map[0][0]));
-
+		pq.offer(new Info(0, 0, 0));
 		while (!pq.isEmpty()) {
 			Info info = pq.poll();
 			int x = info.x;
 			int y = info.y;
 			int time = info.time;
-			int top = info.top;
 			for (int i = 0; i < 4; i++) {
 				int xx = x + dx[i];
 				int yy = y + dy[i];
@@ -77,17 +77,51 @@ public class Main {
                         } else {
                             newTime = time + (int) Math.pow(dh, 2);
                         }
-                        if (newTime <= d && dist[yy][xx] > newTime) {
-                            dist[yy][xx] = newTime;
-                            int newTop = Math.max(top, map[yy][xx]);
-                            System.out.println(newTime + " : " + xx + " / " + yy + " -> " + newTop);
-                            ans = Math.max(ans, newTop);
-                            pq.offer(new Info(xx, yy, newTime, newTop));
+                        if (newTime <= d && up[yy][xx] > newTime) {
+                            up[yy][xx] = newTime;
+                            pq.offer(new Info(xx, yy, newTime));
                         }
                     }
 				}
 			}
-
+		}
+		pq.offer(new Info(0, 0, 0));
+		while (!pq.isEmpty()) {
+			Info info = pq.poll();
+			int x = info.x;
+			int y = info.y;
+			int time = info.time;
+			for (int i = 0; i < 4; i++) {
+				int xx = x + dx[i];
+				int yy = y + dy[i];
+				if (bound(xx, yy)) {
+					// 높이 차이
+					int dh = Math.abs(map[y][x] - map[yy][xx]);
+					if (dh <= t) {
+                        int newTime = 0;
+                        if (map[y][x] <= map[yy][xx]) {
+                            newTime = time + 1;
+                        } else {
+                            newTime = time + (int) Math.pow(dh, 2);
+                        }
+                        if (newTime <= d && down[yy][xx] > newTime) {
+                        	down[yy][xx] = newTime;
+                            pq.offer(new Info(xx, yy, newTime));
+                        }
+                    }
+				}
+			}
+		}
+		
+		
+		ans = map[0][0];
+		for(int i=0; i<n; i++) {
+			for(int ii=0; ii<m; ii++) {
+				int num = up[i][ii] + down[i][ii];
+				if(num <= d && num > 0) {
+					ans = Math.max(ans, map[i][ii]);
+				}
+			}
 		}
 		System.out.println(ans);
 	}
