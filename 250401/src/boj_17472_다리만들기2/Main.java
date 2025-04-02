@@ -104,7 +104,6 @@ public class Main {
 			int yy = y + dy[i];
 			int count = 0;
 			if(bound(xx, yy) && isSame(x,y,xx,yy) && !visited[yy][xx]) {
-//				System.out.println(x + " / " +y + " / " +xx + " / " +yy + " / " + map[y][x] +" : " + map[yy][xx]);
 				visited[yy][xx] = true;
 				findDist(num, xx, yy);
 			}
