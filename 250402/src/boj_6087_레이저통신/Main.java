@@ -1,5 +1,5 @@
 package boj_6087_레이저통신;
-
+// https://bingorithm.tistory.com/2
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,10 +12,9 @@ public class Main {
 	static final int INF = Integer.MAX_VALUE;
 	static int W, H, sX, sY, eX, eY;
 	static char[][] map;
-	static int[][] dist;
-	static boolean[][] visited;
-	static int[] dx = {0,0,1,-1};
-	static int[] dy = {-1,1,0,0};
+	static int[][][] dist;
+	static int[] dx = {0,1,0,-1};
+	static int[] dy = {-1,0,1,0};
 	
 	static PriorityQueue<int[]> pq;
 	
@@ -27,8 +26,7 @@ public class Main {
 		H = Integer.parseInt(st.nextToken());
 		
 		map = new char[H][W];
-		dist = new int[H][W];
-		visited = new boolean[H][W];
+		dist = new int[H][W][4];
 		sX = -1;
 		for(int i=0; i<H; i++) {
 			char[] arr = br.readLine().toCharArray(); 
@@ -44,34 +42,45 @@ public class Main {
 						eY = i;
 					}
 				}	
-				dist[i][j] = INF;
+				for(int k=0; k<4; k++) {
+					dist[i][j][k] = INF;
+				}
 			}
 		}
 		pq = new PriorityQueue<>((a,b)->a[3]-b[3]);
 		pq.add(new int[] {sX, sY, -1, 0});
-		dist[sY][sX] = 0;
+		for(int k=0; k<4; k++) {
+			dist[sY][sX][k] = 0;
+		}
+		int ans = INF;
 		while(!pq.isEmpty()) {
 			int[] info = pq.poll();
 			int x = info[0];
 			int y = info[1];
 			int d = info[2];
-			int count = info[3];
-			
-			if(visited[y][x] && dist[y][x] < count) {
+			int c = info[3];
+			if(x == eX && y == eY) {
+				ans = Math.min(ans, c);
 				continue;
 			}
-			visited[y][x] = true;
 			for(int i=0; i<4; i++) {
 				int xx = x + dx[i];
 				int yy = y + dy[i];
-				int nCount = i == d || d == -1 ? count : count + 1;
-				if(bound(xx, yy) && dist[yy][xx] >= nCount) {
-					dist[yy][xx] = nCount;
-					pq.add(new int[] {xx, yy, i, nCount});
+				int nc;
+				if(d == -1 || d == i) {
+					nc = c;
+				} else if((d+2) % 4 == i) {
+					continue;
+				} else {
+					nc = c+1;
+				}
+				if(bound(xx,yy) && dist[yy][xx][i] > nc) {
+					dist[yy][xx][i] = nc;
+					pq.add(new int[] {xx, yy, i, nc});
 				}
 			}
 		}
-		System.out.println(dist[eY][eX]);
+		System.out.println(ans);
 	}
 	static boolean bound(int x, int y) {
 		return x>=0&&y>=0&&x<W&&y<H&&map[y][x] != '*';
